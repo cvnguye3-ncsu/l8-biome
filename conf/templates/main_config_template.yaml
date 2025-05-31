@@ -1,0 +1,51 @@
+# Model
+# -----
+frozen_layers: 12
+# SatlasNet: [0, 4] (Stages)
+# Prithvi: [0, 12] (Layers)
+# LSKNet + UNetFormer: [0, 4] (Stages)
+resize_embedding: False
+
+# Optimizer
+# ---------
+l2_reg: 1e-2
+betas: [.9, .999]
+
+learning_rate: 5e-5
+warmup_starting_lr_ratio: 1e-1
+warmup_ending_lr_ratio: 1
+warmup_epochs: 1
+max_epochs: 150
+
+patience: 5
+patience_tol: 1e-3
+
+# Dataset
+# -------
+data_folder: /home/calvin/Documents/l8-biome/_data/
+batch_size: 4
+batch_grad_acc: 8
+
+seed: 1234
+
+train_ratio: .6
+val_ratio: .15
+
+subset_ratio: .1
+
+# Training
+# --------
+test_run: False
+perf_eval: True
+debug_grad: False
+
+# GPU
+# ---
+gpu_strategy: auto
+gpu_devices: [0]
+gpu_compile: False
+matmul_precision: highest
+# medium, high, highest
+
+sync_batchnorm: False
+sync_logging: False

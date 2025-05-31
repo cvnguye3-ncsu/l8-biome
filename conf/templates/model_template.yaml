@@ -1,0 +1,16 @@
+defaults:
+  - main_config
+  - _self_
+
+# Logging
+# -------
+hydra:
+  run:
+    dir: F:/l8-biome/models/prithvi  
+  job:
+    chdir: true
+log_path: ./logs
+
+# Model
+# -----
+weight_path: ./Prithvi_100M.pt
