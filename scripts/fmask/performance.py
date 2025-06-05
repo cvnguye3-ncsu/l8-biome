@@ -12,7 +12,7 @@ from tqdm import tqdm
 import numpy as np
 
 from importables.pytorch.metrics import SemanticSegmentationMetrics
-from importables.project.cloud_classes import ClassRegistry, CLOUD_SHADOW_MAP
+from importables.project.cloud_classes import ClassRegistry
 
 # Paths
 # -----
@@ -44,11 +44,11 @@ def main(cfg: DictConfig):
                        desc='Running FMask . . .', unit='image'):
         label = Image.open(LBL_PATH / row['image_name'])
         label_arr = np.array(label)
-        label_arr = class_reg.class_reduction_map(label_arr)
+        # label_arr = class_reg.reduce_cloud_only_map(label_arr)
         
         fmask = Image.open(FMASK_PATH / row['image_name'])
         fmask_arr = np.array(fmask)
-        fmask_arr = class_reg.class_reduction_map(fmask_arr)
+        # fmask_arr = class_reg.reduce_cloud_only_map(fmask_arr)
         
         metrics.update(trans(fmask_arr), trans(label_arr))
         

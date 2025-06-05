@@ -115,18 +115,14 @@ class ClassRegistry:
     
         return mask
     
-    # def class_reduction_map(self, class_mat: NDArray) -> NDArray:
-    #     red_class_mat = np.zeros_like(class_mat)
+    def reduce_cloud_only_map(self, class_mat: NDArray) -> NDArray:
+        red_class_mat = np.zeros_like(class_mat)
         
-    #     for old_val, new_val in self.CLASS_REDUCE_MAP.items():
-    #         red_class_mat[(class_mat == old_val) | (class_mat == new_val)] = new_val
-            
-    #     # 0 to 0
-    #     # 1 to 1
-    #     # 2 to 1
-    #     # 3 to 2    
+        red_class_mat[class_mat == CloudClass.CLOUD.value] = 1 
+        red_class_mat[class_mat == CloudClass.THIN_CLOUD.value] = 1 
+        red_class_mat[class_mat == CloudClass.CLOUD_SHADOW.value] = 2 
         
-    #     return red_class_mat
+        return red_class_mat
     
     def class_recolor_map(self, class_mat: NDArray) -> NDArray:
         color_mat = np.zeros((224, 224, 3), dtype=np.uint8)

@@ -9,17 +9,6 @@ from torch.utils.data import Dataset
 import torchvision.transforms.v2 as transforms
 from torchvision.transforms.v2 import functional as F
 
-
-# class SatlasNorm(transforms.Transform):
-#     def __init__(self):
-#         super().__init__()
-        
-#     def transform(self, input: pt.Tensor, _):
-#         normed = (input - 4000)/16320
-#         normed = normed.clip(0, 1)
-        
-#         return normed
-
 class MyTransformations:
     def __init__(self):
         self.angles = (0, 90, 180, 270)
@@ -58,17 +47,6 @@ class SegmentationDataset(Dataset):
         
         self._size = len(self._image_fns)
 
-        # --- DATASET PERCENTAGE ---
-        # if subset_ratio < 1:
-        #     idx = pt.randperm(self.size)
-        #     self.size = int(subset_ratio*self.size)
-
-        #     self.image_fns = [self.image_fns[i] for i in idx]
-        #     self.label_fns = [self.label_fns[i] for i in idx]
-
-        #     self.image_fns = self.image_fns[:self.size]
-        #     self.label_fns = self.label_fns[:self.size]
-
         # --- MEAN AND STANDARD DEVIATION ---
         means: pt.Tensor = pt.load(DATA_PATH / 'seeds' / f'{seed}_{subset_ratio}_mean.pt')
         stds: pt.Tensor = pt.load(DATA_PATH / 'seeds' / f'{seed}_{subset_ratio}_std.pt')
@@ -97,14 +75,8 @@ class SegmentationDataset(Dataset):
         label_path = self._label_fns[idx]
 
         img_name = img_path.name.split('.')[0]
-        image = Image.open(img_path)
-        mask = Image.open(label_path)
-
-        if self.img_transform:
-            image = self.img_transform(image)
-
-        if self.mask_transform:
-            mask = self.mask_transform(mask)
+        image = self.img_transform(Image.open(img_path))
+        mask = self.mask_transform(Image.open(label_path))
 
         if self._data_aug_flag:
             image, mask = self._data_aug((image, mask))

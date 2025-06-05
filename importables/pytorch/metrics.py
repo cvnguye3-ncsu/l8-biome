@@ -197,7 +197,7 @@ class SemanticSegmentationMetrics:
         self.df = pd.DataFrame(columns=columns)
         self.class_reg = class_reg
 
-        class_count = class_reg.CLASS_CT
+        class_count = class_reg.class_ct
         
         self.acc, self.f1, self.iou = acc, f1, iou
         
@@ -219,7 +219,7 @@ class SemanticSegmentationMetrics:
     def compute(self) -> pd.DataFrame:
         if self.acc: 
             acc = self.acc_func.compute().cpu().numpy().item()
-            self.df['Acc'] = ([np.nan] * self.class_reg.CLASS_CT) + [acc]
+            self.df['Acc'] = ([np.nan] * self.class_reg.class_ct) + [acc]
     
         if self.iou:
             iou = self.iou_func.compute().cpu().numpy()

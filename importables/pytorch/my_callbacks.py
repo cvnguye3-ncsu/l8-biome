@@ -45,10 +45,7 @@ class MyCallback(Callback):
 
         plot_data_folder = experiment_folder / 'plot_data'
         plot_data_folder.mkdir(parents=True, exist_ok=True)
-
-        example_folder = experiment_folder / 'example'
-        example_folder.mkdir(parents=True, exist_ok=True)
-
+        
         # MODEL SUMMARY
         # -------------
         summary_path = os.path.join(experiment_folder, "model_summary.txt")
