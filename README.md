@@ -8,8 +8,9 @@ Semantic image segmentation for (thick) clouds, thin clouds, and cloud shadows.
 
 [L8-Biome](https://landsat.usgs.gov/landsat-8-cloud-cover-assessment-validation-data)
 
-1. Generate images and labels with `create_images.py`.
-2. Tabulate metadata for each image with `tabulate_metadata.py`.
+1. Download raw data and copy folder structure.
+2. Generate images and labels with `create_images.py`.
+3. Tabulate metadata for each image with `tabulate_metadata.py`.
 
 ### Data Structure
 
@@ -93,7 +94,7 @@ Here are the weight names. Weights are easily assessible from respective reposit
 mamba create -n l8-biome python==3.10.* gdal==3.10.*
 pip install hydra-core==1.3.* pillow opencv-python rasterio pandas matplotlib seaborn randomgen jupyter scipy tqdm 
 pip install torch==2.7.0 torchvision torchaudio --index-url https://download.pytorch.org/whl/cu128
-pip install lightning torchinfo timm satlaspretrain-models kornia==0.8.1 segment-anything-hq
+pip install lightning torchinfo timm kornia==0.8.1 segment-anything-hq
 pip install git+https://github.com/ubarsc/rios
 pip install git+https://github.com/ubarsc/python-fmask
 ```
