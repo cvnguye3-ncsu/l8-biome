@@ -5,7 +5,7 @@ from pathlib import Path
 import numpy as np
 from numpy.typing import NDArray
 
-from importables.general.cloud_classes import mask_labeled_remap, fmask_labeled_remap, L8BiomeClass
+from importables.project.cloud_classes import mask_labeled_remap, fmask_labeled_remap, L8BiomeClass
 
 import rasterio as rio
 from rasterio.windows import Window

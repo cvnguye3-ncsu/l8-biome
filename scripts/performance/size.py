@@ -7,7 +7,7 @@ from importables.pytorch.metrics import SemanticSegmentationMetrics
 from importables.pytorch.dataset import SegmentationDataset
 from importables.general.image_processing import remove_large_components
 
-from importables.general.cloud_classes import ClassRegistry
+from importables.project.cloud_classes import ClassRegistry
 
 import pytorch_lightning as L
 

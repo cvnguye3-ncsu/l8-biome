@@ -3,10 +3,10 @@ import hydra
 from omegaconf import DictConfig
 
 import pandas as pd
-from importables.pytorch.metrics import BoundaryIoU
+from importables.pytorch.metrics import MulticlassBoundaryIoU
 from importables.pytorch.dataset import SegmentationDataset
 
-from importables.general.cloud_classes import ClassRegistry
+from importables.project.cloud_classes import ClassRegistry
 
 import pytorch_lightning as L
 
@@ -57,7 +57,7 @@ def main(cfg: DictConfig):
     
     for r in R:
         print('r=', r)
-        bnd_metric = BoundaryIoU(class_reg, r=r, connectivity=CONNECTIVITY, average=AVERAGE)
+        bnd_metric = MulticlassBoundaryIoU(class_reg, r=r, connectivity=CONNECTIVITY, average=AVERAGE)
         
         for i in tqdm(list(range(TOTAL_BATCHES)),
                     desc='Calculating boundary metric . . .', unit='batch'):
@@ -73,15 +73,14 @@ def main(cfg: DictConfig):
             
             with pt.no_grad():
                 logit = model(img_tensor)
-                
-            pred = logit.argmax(dim=1)
+                pred = logit.argmax(dim=1)
+            
             bnd_metric.update(pred, lbl_tensor)
+            
+            return
         
-        compute = bnd_metric.compute()
-        df = bnd_metric.process_compute(compute)
-        bnd_metric.reset()
-        
-        print(df)
+        results_df = bnd_metric.compute()
+        print(results_df)
 
 if __name__ == '__main__':
     main()

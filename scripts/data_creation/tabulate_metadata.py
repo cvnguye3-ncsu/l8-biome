@@ -14,7 +14,7 @@ from PIL import Image
 import pandas as pd
 from tqdm import tqdm
 
-from importables.general.cloud_classes import CloudClass
+from importables.project.cloud_classes import CloudClass
 from importables.general.image_processing import disconnect_segments
 
 BASE_PATH = Path('.')
