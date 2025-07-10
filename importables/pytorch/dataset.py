@@ -1,4 +1,5 @@
 from pathlib import Path
+from typing import Iterable
 
 from PIL import Image
 
@@ -8,26 +9,26 @@ import torch as pt
 from torch.utils.data import Dataset
 import torchvision.transforms.v2 as transforms
 from torchvision.transforms.v2 import functional as F
+from importables.general.cloud_classes import ClassRegistry
 
 class MyTransformations:
     def __init__(self):
         self.angles = (0, 90, 180, 270)
 
-    def __call__(self, pair):
-        img, mask = pair
-
-        # Horizontal flip
+    def __call__(self, imgs: Iterable[pt.Tensor]):
         if pt.rand(1).item() < 0.5:
-            img, mask = (F.hflip(img), F.hflip(mask))
+            imgs = [F.hflip(img) for img in imgs]
 
-        # 90 angle rotation
         idx = pt.randint(0, 4, size=(1, 1)).item()
         angle = self.angles[idx]
+        
+        imgs = [F.rotate(img, angle=angle) for img in imgs]
 
-        return (F.rotate(img, angle=angle), F.rotate(mask, angle=angle))
+        return imgs
     
 class SegmentationDataset(Dataset):
-    def __init__(self, seed: int, split: str, data_location: str,
+    def __init__(self, seed: int, split: str, data_location: str, 
+                 class_reg: ClassRegistry,
                  data_aug=False, subset_ratio: float = 1.0):
         self._data_aug_flag = data_aug
         
@@ -66,6 +67,7 @@ class SegmentationDataset(Dataset):
         ])
 
         self._data_aug = MyTransformations()
+        self._reduce = class_reg.reduce_classes
 
     def __len__(self):
         return self._size
@@ -75,10 +77,12 @@ class SegmentationDataset(Dataset):
         label_path = self._label_fns[idx]
 
         img_name = img_path.name.split('.')[0]
-        image = self.img_transform(Image.open(img_path))
-        mask = self.mask_transform(Image.open(label_path))
+        img = self.img_transform(Image.open(img_path))
+        lbl = self.mask_transform(Image.open(label_path))
 
         if self._data_aug_flag:
-            image, mask = self._data_aug((image, mask))
+            img, lbl = self._data_aug((img, lbl))
+            
+        lbl = self._reduce(lbl)
 
-        return image, mask, img_name
+        return img, lbl, img_name

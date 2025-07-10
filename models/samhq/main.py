@@ -27,7 +27,7 @@ from randomgen import ChaCha
 from PIL import Image
 import cv2
 
-from importables.project.cloud_classes import CloudClass
+from importables.general.cloud_classes import CloudClass
 from importables.pytorch.metrics import SemanticSegmentationMetrics
 
 from tqdm import tqdm

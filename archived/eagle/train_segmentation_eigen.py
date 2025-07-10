@@ -32,7 +32,7 @@ from eigen_modules import  *
 import hydra
 from omegaconf import DictConfig, OmegaConf
 
-from importables.general.plotting import plot_curves, tabulate_metrics, plot_confusion_matrix
+from importables.general.evaluation import plot_curves, tabulate_metrics, plot_confusion_matrix
     
 warnings.filterwarnings(action='ignore')
 torch.multiprocessing.set_sharing_strategy('file_system')

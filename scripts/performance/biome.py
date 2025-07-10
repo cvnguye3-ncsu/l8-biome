@@ -68,8 +68,11 @@ def main(cfg: DictConfig):
             
             biome_metrics.update(pred, lbl_tensor)
             
-        results_df = biome_metrics.compute()
-        print(results_df.to_latex(index=True, caption="Biome Metrics", label="tab:class_metrics", float_format="%.2f"))
+        compute = biome_metrics.compute()
+        biome_metrics.reset()
+        df = biome_metrics.tabulate_compute(compute)
+        
+        print(df.to_latex(index=True, caption="Biome Metrics", label="tab:class_metrics", float_format="%.2f"))
 
 if __name__ == '__main__':
     main()

@@ -12,7 +12,7 @@ from tqdm import tqdm
 import numpy as np
 
 from importables.pytorch.metrics import SemanticSegmentationMetrics
-from importables.project.cloud_classes import ClassRegistry
+from importables.general.cloud_classes import ClassRegistry
 
 # Paths
 # -----
